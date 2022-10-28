@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <title>CRYPTO UI</title>
+  </head>
+  <body>
+    <!-- MAIN SECTION -->
+    <section id="s1">
+      <div class="content">
+        <!-- SELECT (LEFT) -->
+        <div class="menu">
+            <h3>SELECT MODE:</h3>
+            <p class="p-select">CESAR</p>
+            <p class="p-select">VIGENERE</p>
+            <p class="p-select">RSA</p>
+            
+            <p>ENCRYPT/DECRYPT</p>
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <!-- ENTER (RIGHT) -->
+        <p id="content_text">ENTER TEXT:</p>
+        <input type="text" name="" id="">
+        <p id="content_text">KEY:</p>
+        <input type="text" name="" id="">
+      </div>
+    </section>
+
+    <!-- BUTTON & LOADING SECTION -->
+    <section id="resultSec">
+
+      <div class="container">
+        <div id="myProgress">
+          <div id="myBar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATE INFO -->
+    <div class="icon-container" id="info-box">
+      <p id="infotag">STATUS: READY</p>
+    </div>
+
+    <script src="script/widget.js"></script>
+  </body>
+</html>

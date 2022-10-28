@@ -1,0 +1,106 @@
+
+
+:root {
+    /*COLORS*/
+    --bg-color: #000000;
+    --text-color: #07FF79;
+    --bg-off-color: #0fb25b;
+
+    /*FONT SIZES*/
+    --headline: 20px;
+    --par: 12px;
+    --font: monospace;
+}
+
+body {
+    background-color: var(--bg-color);
+    width: 400px;
+    height: 330px;
+}
+
+.content {
+    width: 300px;
+    height: 120px;
+}
+
+section {
+    border-radius: 6px;
+    padding: 10px;
+    margin: 20px;
+    background-color: var(--section-color);
+}
+
+
+h1 {
+    font-family: var(--font);
+    color: var(--text-color);
+    font-size: var(--headline);
+}
+
+h3 {
+    font-family: var(--font);
+    color: var(--text-color);
+    font-size: var(--par);
+}
+
+p {
+    font-family: var(--font);
+    color: var(--text-color);
+    font-size: var(--par);
+}
+
+button {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    
+}
+
+#resultSec {
+    height: 40px
+}
+
+#goBtn {
+    float: right;
+    background-color: var(--accent-color)
+}
+
+#goBtn:hover {
+    background-color: var(--accent-selected);
+}
+
+.menu {
+    float: left;
+    width: 100px;
+    height: 200px;
+    background-size: 100px 100px;
+    display: block;
+}
+
+.p-select {
+    font-size:small;
+    margin: 4px;
+}
+
+
+.container {
+    margin-top:18px;
+    width: 290px;
+    position: relative;
+ }
+  
+#myProgress {
+    width: 100%;
+    background-color: var(--bg-off-color);
+}
+  
+#myBar {
+    width: 0%;
+    background-color: green;
+
+    height: 10px;
+    border-radius: 30px;
+    background-color: var(--compliment-color);
+}

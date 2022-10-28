@@ -1,6 +1,6 @@
 from english_words import english_words_set
 
-mode = int(input('(0) Encrypt (1) Decrypt: '))
+mode = int(input('(0) Encrypt (1) Decrypt (2) Hack: '))
 
 # get input
 def get_input():
