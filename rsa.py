@@ -1,4 +1,4 @@
-"""
+""" Caspar's
 ______  _____  ___  
 | ___ \/  ___|/ _ \ 
 | |_/ /\ `--./ /_\ |
@@ -8,17 +8,19 @@ ______  _____  ___
 
 """
 import math
-from random import randrange, getrandbits
+from random import getrandbits
 
-# generate random prime number of length l
+MESSAGE = 'hello'
+BITS = 8
+
+# generate random number of l bits
 def rand_bits(l: int) -> int:
     # random bits
     p = getrandbits(l)
-
     return p
 
 # check if n of (k-bits) is a prime
-def is_prime(n: int, k=32) -> bool:
+def is_prime(n: int) -> bool:
     # check if even
     if n % 2 == 0:
         return False
@@ -28,9 +30,25 @@ def is_prime(n: int, k=32) -> bool:
             return False
     return True
 
-print(rand_bits(265))
-
 # create prime candidate & check if prime
-
+def make_prime(l: int) -> int:
+    p = rand_bits(l)
+    while is_prime(p) == False:
+        p = rand_bits(l)
+    return p
 
 # compute keys
+def make_keys() -> dict:
+    p = 5#make_prime(BITS)
+    q = 11#make_prime(BITS)
+    n = p * q
+
+    m = (p-1) * (q-1)
+    a = 7 # TODO: generate a coprime of m
+    return {
+        'private': m,
+        'public': (n, a)
+    }
+
+d = make_keys()
+print(d)
