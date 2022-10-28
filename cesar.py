@@ -1,4 +1,5 @@
 from english_words import english_words_set
+import re
 
 mode = int(input('(0) Encrypt (1) Decrypt (2) Hack: '))
 
@@ -44,8 +45,8 @@ def decrypt() -> str:
 # super secret mode 
 def hack() -> str:
     text = input("text2hack: ").lower()
-    # split at spaces
-    words = text.split()
+    # split at spaces, ignoring special chars
+    words = re.sub(r'[,\.!?]', '', text).split()
     for word in words:
         temp = list(word)
         for i in range(26):
@@ -57,7 +58,7 @@ def hack() -> str:
                     else:
                         temp[j] = chr(val+i)
             if "".join(temp) in english_words_set:
-                # if cracked & multiple words, deciver entire input
+                # if cracked & multiple words, decipher entire input
                 if len(words) > 1:
                     t = ""
                     for k in list(text):
