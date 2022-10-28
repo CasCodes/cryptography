@@ -74,3 +74,4 @@ elif mode == 1:
     print(decrypt())
 elif mode == 2:
     print(hack())
+    

@@ -1,3 +1,7 @@
+"""
+Simple cipher using the Fibonacci sequence
+"""
+
 # get input
 text = input('enter text: ').lower()
 

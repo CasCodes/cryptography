@@ -1,7 +1,11 @@
+"""
+Vigenere polyalphabetic cipher
+"""
+import re
 
 # get input
 def get_input():
-    mode = 0
+    mode =  int(input('(0) Encrypt (1) Decrypt: '))
     text = input('enter text: ').upper()
     keyword = input('enter keyword: ').upper()
     return text, keyword, mode
@@ -14,18 +18,24 @@ def generate_key(text, keyword):
 def encrypt(text, key):
     cipher = []
     for i in range(len(text)):
-        c = (ord(text[i]) + ord(key[i])) % 26
-        c += ord('A')
-        cipher.append(chr(c))
+        if text[i].isalpha():
+            c = (ord(text[i]) + ord(key[i])) % 26
+            c += ord('A')
+            cipher.append(chr(c))
+        else:
+            cipher.append(text[i])
     return "".join(cipher)
 
-# 
+# decrypt text with key
 def decrypt(text, key):
     plain = []
     for i in range(len(text)):
-        c = (ord(text[i]) - ord(key[i]) + 26) % 26
-        c += ord('A'-'a')
-        plain.append(chr(c))
+        if text[i].isalpha():
+            c = (ord(text[i]) - ord(key[i]) + 26) % 26
+            c += ord('A')
+            plain.append(chr(c))
+        else:
+            plain.append(text[i])
     return "".join(plain)
 
 text, key_word, mode = get_input()
@@ -37,4 +47,5 @@ if mode == 0:
 elif mode == 1:
     plain = decrypt(text, key)
     print(plain)
-print("please select a mode")
+else:
+    print("please select a mode")
