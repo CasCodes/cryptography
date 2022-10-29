@@ -19,7 +19,7 @@ def rand_bits(l: int) -> int:
     p = getrandbits(l)
     return p
 
-# check if n of (k-bits) is a prime
+# check if n of (k-bits) is a prime # TODO: replace with miller rabin
 def is_prime(n: int) -> bool:
     # check if even
     if n % 2 == 0:
@@ -37,17 +37,24 @@ def make_prime(l: int) -> int:
         p = rand_bits(l)
     return p
 
+# return number between 1 & m that is coprime with both m & n
+def find_coprime(m, n):
+    for i in range(2, m):
+        if math.gcd(i, m) == 1 & math.gcd(i, n) == 1:
+            return i
+
 # compute keys
 def make_keys() -> dict:
-    p = 5#make_prime(BITS)
-    q = 11#make_prime(BITS)
+    p = 2#make_prime(BITS)
+    q = 7#make_prime(BITS)
+    
     n = p * q
-
     m = (p-1) * (q-1)
-    a = 7 # TODO: generate a coprime of m
+
+    a = find_coprime(m, n)
     return {
         'private': m,
-        'public': (n, a)
+        'public': (a, n)
     }
 
 d = make_keys()
