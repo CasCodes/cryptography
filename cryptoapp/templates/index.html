@@ -1,51 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
-    <title>CRYPTO UI</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/shards.min.css') }}">
   </head>
   <body>
-    <!-- MAIN SECTION -->
-    <section id="s1">
-      <div class="content">
-        <!-- SELECT (LEFT) -->
-        <div class="menu">
-            <h3>SELECT MODE:</h3>
-            <p class="p-select">CESAR</p>
-            <p class="p-select">VIGENERE</p>
-            <p class="p-select">RSA</p>
-            
-            <p>ENCRYPT/DECRYPT</p>
-            <label class="switch">
-                <input type="checkbox">
-                <span class="slider"></span>
-            </label>
-        </div>
-
-        <!-- ENTER (RIGHT) -->
-        <p id="content_text">ENTER TEXT:</p>
-        <input type="text" name="" id="">
-        <p id="content_text">KEY:</p>
-        <input type="text" name="" id="">
+    <!-- Welcome Section -->
+    <div class="welcome d-flex justify-content-center flex-column">
+      <div class="inner-wrapper mt-auto mb-auto">
+        <h1 class="slide-in">CryptoUI</h1>
+        <p class="slide-in">Informatik S3</p>
       </div>
-    </section>
-
-    <!-- BUTTON & LOADING SECTION -->
-    <section id="resultSec">
-
-      <div class="container">
-        <div id="myProgress">
-          <div id="myBar"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- STATE INFO -->
-    <div class="icon-container" id="info-box">
-      <p id="infotag">STATUS: READY</p>
     </div>
 
-    <script src="script/widget.js"></script>
+    <!-- MODE CONTOLS -->
+    <div class="example col-lg-8 col-md-10 ml-auto mr-auto">
+      <div class="container">
+        <div class="row">
+          <h5 class="mb-4 w-100">Controls</h5>
+          <p class="mb-5">
+            Select the cipher you want to use and whether you want to encrypt or decrypt with this method
+          </p>
+        </div>
+        <div class="row mb-5">
+          <div class="col-md-6 pl-0 custom-dropdown-example">
+            <h6 class="text-muted mb-3">Mode Menu</h6>
+            <fieldset>
+              <select class="custom-select w-100" id="modeMenu" required>
+                <option value="1">Cesar</option>
+                <option value="2">Vigenere</option>
+                <option value="3">RSA</option>
+              </select>
+            </fieldset>
+          </div>
+
+          <div class="col-md-6 pl-0">
+            <!-- ENCRYPT DECRYPT FLIP SWITCH-->
+            <h6 class="text-muted mb-1">Decrypt/Encrypt</h6>
+            <fieldset>
+              <div class="custom-control custom-toggle d-block my-2">
+                <input type="checkbox" id="customToggle2" name="customToggle2" class="custom-control-input" checked>
+                <label class="custom-control-label" for="customToggle2">Encrypt</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-12">
+          <h5 class="mb-4">Inputs</h5>
+          <p class="mb-4">Enter the message you want to encrypt or decrypt as well as the key to use. Cesar uses Int, Vigenere String and RSA generates the key. </p>
+          <form class="was-validated">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="form-2-first-name">Message</label>
+                <input type="text" class="form-control is-valid" id="form-2-message" placeholder="Enter Message" value="Hello, world!" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="form-2-last-name">Key</label>
+                <input type="text" class="form-control is-valid" id="form-2-key" placeholder="Enter Key" value="3" required>
+              </div>
+            </div>
+            <!-- GO BUTTON -->
+            <!-- Modals -->
+            <div id="modals" class="container">
+
+
+              <div class="mb-5">
+                <!-- Trigger -->
+                <button onclick="getSelections()" type="button" class="btn btn-primary btn-pill btn-lg d-table ml-auto mr-auto" data-toggle="modal" data-target="#exampleModal">
+                  👉 Let's go!
+                </button>
+
+                <!-- Modal Body -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">🦾 Result:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <!-- RESULT TEXT -->
+                      <div class="modal-body">
+                        ebiil, tloia!
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Copy</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <!-- close modals -->
+        </div>
+      </div>
+    </div>
+
+    <!-- JS-->
+    <!-- Dependencies: jQuery, Popper.js, Bootstrap JS, Shards JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="{{ url_for('static', filename= 'js/scipt.js') }}"></script>
   </body>
 </html>
