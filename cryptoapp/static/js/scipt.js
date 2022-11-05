@@ -23,6 +23,10 @@ function getSelections() {
     var key = document.getElementById("form-2-key").value;
     console.log(key)
 
+    // TODO: check if inputs are of valid type 
+
+    // TODO: error message popup
+
     // call python
     data = {
         'encrypt': encrypt,
