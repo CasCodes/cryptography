@@ -1,16 +1,19 @@
 from flask import Flask, render_template, request, jsonify
+import flask
 
 app = Flask(__name__)
-
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/connect/', methods = ['POST'])
-def connect():
-    if request.method == "POST":
-        print("hi")
-    return 
+@app.route('/data', methods = ['POST'])
+def revcieve_data():
+    print("we")  # parse as JSON
+    data = flask.request.get_data()
+    print(data)
+    return jsonify({"status": 200})
 
-app.run(debug=True)
+
+if __name__ == "__main__":
+    app.run(debug=True)
