@@ -27,10 +27,20 @@ function getSelections() {
     if (method == 'Cesar') {
         key = parseInt(key)
         // only allow int for cesar
-        if (!Number.isInteger(key)){
+        if (!Number.isInteger(key)) {
             // display error message
-            $(".alert").show()
-            console.log('break me daddy')
+            $('.alert').show()
+            return
+        }
+    }
+    if (method == 'Vigenere'){
+        // TODO only allow string for vigenere
+        // why doesnt this regrex work??
+        console.log("is msg alpha?", /[^a-zA-Z]/.test(msg))
+
+        if (!/[^a-zA-Z]/.test(msg)) {
+            $('.alert').show()
+            console.log('hit me daddy make me beg')
             return
         }
     }
