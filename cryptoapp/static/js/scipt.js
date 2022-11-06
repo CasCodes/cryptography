@@ -1,3 +1,4 @@
+$(".alert").hide()
 
 function getSelections() {
     // flip switch checkbox
@@ -11,7 +12,6 @@ function getSelections() {
 
     // select dropdown
     var drop = document.getElementById("modeMenu");
-    //var method_value = drop.options[drop.selectedIndex].value;
     var method = drop.options[drop.selectedIndex].text;
     console.log(method)
 
@@ -23,9 +23,18 @@ function getSelections() {
     var key = document.getElementById("form-2-key").value;
     console.log(key)
 
-    // TODO: check if inputs are of valid type 
-
-    // TODO: error message popup
+    // check if inputs are of valid type
+    if (method == 'Cesar') {
+        key = parseInt(key)
+        // only allow int for cesar
+        if (!Number.isInteger(key)){
+            // display error message
+            $(".alert").show()
+            console.log('break me daddy')
+            return
+        }
+    }
+    $(".alert").hide()
 
     // call python
     data = {
@@ -47,4 +56,7 @@ function getSelections() {
         // send text to widget
         console.log(rb);
     });
+
+    // open modal (result popup)
+    $(".modal").modal()
 }
