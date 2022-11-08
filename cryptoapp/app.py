@@ -3,9 +3,30 @@ import flask
 import json
 
 # cutom imports
-from crypto import process
+from cesar import encrypt_cesar, decrypt_cesar
+from vigenere import encrypt_vigenere, decrypt_vigenere
 
 app = Flask(__name__)
+
+# routes data to the correct mode and method
+def pipeline(data) -> str:
+ # {"encrypt":true,"method":"Cesar","message":"Hello, world!","key":"3"}'
+    if data['encrypt']:
+        if data['method'] == "Cesar":
+            result = encrypt_cesar(data['message'], int(data['key']))
+            print(result)
+            return result
+        elif data['method'] == "Vigenere":
+            result = encrypt_vigenere(data['message'], data['key'])
+            return result
+    # decrypt mode
+    else:
+        if data['method'] == "Cesar":
+            result = decrypt_cesar(data['message'], int(data['key']))
+            return result
+        elif data['method'] == "Vigenere":
+            result = decrypt_vigenere(data['message'], data['key'])
+            return result
 
 @app.route('/')
 def index():
@@ -18,9 +39,9 @@ def revcieve_data():
     print(data)
 
     # process the data
-    process(json.loads(data))
+    result = pipeline(json.loads(data))
 
-    return jsonify({"status": 200})
+    return jsonify({"result": result})
 
 if __name__ == "__main__":
     app.run(debug=True)

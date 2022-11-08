@@ -34,13 +34,9 @@ function getSelections() {
         }
     }
     if (method == 'Vigenere'){
-        // TODO only allow string for vigenere
-        // why doesnt this regrex work??
-        console.log("is msg alpha?", /[^a-zA-Z]/.test(msg))
-
-        if (!/[^a-zA-Z]/.test(msg)) {
+        // only allow alphabetic string for vigenere
+        if (/^[a-zA-Z]+$/.test(key) == false) {
             $('.alert').show()
-            console.log('hit me daddy make me beg')
             return
         }
     }
