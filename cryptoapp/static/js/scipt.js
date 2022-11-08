@@ -1,5 +1,32 @@
 $(".alert").hide()
 
+function displayResult(text) {
+    div = document.getElementById('modal-text');
+    div.textContent = text;
+
+}
+
+function callBackend(data) {
+        // call python
+        console.log(JSON.stringify(data))
+        fetch("/data", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(rb => {
+            // send text to widget
+            console.log(rb);
+            displayResult(rb['result'])
+        });
+    
+        // open modal (result popup)
+        $(".modal").modal()
+}
+
 function getSelections() {
     // flip switch checkbox
     if (document.getElementById("customToggle2").checked){
@@ -42,27 +69,11 @@ function getSelections() {
     }
     $(".alert").hide()
 
-    // call python
     data = {
         'encrypt': encrypt,
         'method': method,
         'message': msg,
         'key': key
     }
-    console.log(JSON.stringify(data))
-    fetch("/data", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(rb => {
-        // send text to widget
-        console.log(rb);
-    });
-
-    // open modal (result popup)
-    $(".modal").modal()
+    callBackend(data)
 }
