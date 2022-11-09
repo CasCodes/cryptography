@@ -2,22 +2,23 @@ from flask import Flask, render_template, request, jsonify
 import flask
 import json
 
-# cutom imports
+# custom imports
 from cesar import encrypt_cesar, decrypt_cesar
-from vigenere import encrypt_vigenere, decrypt_vigenere
+from vigenere import generate_key, encrypt_vigenere, decrypt_vigenere
 
 app = Flask(__name__)
 
 # routes data to the correct mode and method
 def pipeline(data) -> str:
  # {"encrypt":true,"method":"Cesar","message":"Hello, world!","key":"3"}'
+    if data['method'] == 'RSA':
+        return "RSA is not implemented yet!"
     if data['encrypt']:
         if data['method'] == "Cesar":
             result = encrypt_cesar(data['message'], int(data['key']))
-            print(result)
             return result
         elif data['method'] == "Vigenere":
-            result = encrypt_vigenere(data['message'], data['key'])
+            result = encrypt_vigenere(data['message'].upper(), data['key'].upper())
             return result
     # decrypt mode
     else:
@@ -25,7 +26,7 @@ def pipeline(data) -> str:
             result = decrypt_cesar(data['message'], int(data['key']))
             return result
         elif data['method'] == "Vigenere":
-            result = decrypt_vigenere(data['message'], data['key'])
+            result = decrypt_vigenere(data['message'].upper(), data['key'].upper())
             return result
 
 @app.route('/')

@@ -1,11 +1,11 @@
 """ Caspar's
-______  _____  ___  
-| ___ \/  ___|/ _ \ 
-| |_/ /\ `--./ /_\ |
-|    /  `--. \  _  |
-| |\ \ /\__/ / | | |
-\_| \_|\____/\_| |_/
 
+██████╗░░██████╗░█████╗░
+██╔══██╗██╔════╝██╔══██╗
+██████╔╝╚█████╗░███████║
+██╔══██╗░╚═══██╗██╔══██║
+██║░░██║██████╔╝██║░░██║
+╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝
 """
 import math
 from random import getrandbits
@@ -19,7 +19,8 @@ def rand_bits(l: int) -> int:
     p = getrandbits(l)
     return p
 
-# check if n of (k-bits) is a prime # TODO: replace with miller rabin
+# -- TODO: replace with miller rabin
+# check if n of (k-bits) is a prime
 def is_prime(n: int) -> bool:
     # check if even
     if n % 2 == 0:
@@ -38,15 +39,17 @@ def make_prime(l: int) -> int:
     return p
 
 # return number between 1 & m that is coprime with both m & n
-def find_coprime(m, n):
+def find_coprime(m: int, n: int) -> int:
     for i in range(2, m):
+        # greatest common divisor (ggT)
         if math.gcd(i, m) == 1 & math.gcd(i, n) == 1:
             return i
+    return 1
 
 # compute keys
 def make_keys() -> dict:
-    p = 2#make_prime(BITS)
-    q = 7#make_prime(BITS)
+    p = 5#make_prime(BITS)
+    q = 11#make_prime(BITS)
     
     n = p * q
     m = (p-1) * (q-1)
@@ -57,5 +60,5 @@ def make_keys() -> dict:
         'public': (a, n)
     }
 
-d = make_keys()
-print(d)
+keys = make_keys()
+print(keys)
