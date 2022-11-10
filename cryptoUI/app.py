@@ -35,13 +35,13 @@ def index():
 
 @app.route('/data', methods = ['POST'])
 def revcieve_data():
-    print("we")  # parse as JSON
+    # parse as JSON
     data = flask.request.get_data()
     print(data)
 
     # process the data
     result = pipeline(json.loads(data))
-
+    # return result to front end
     return jsonify({"result": result})
 
 if __name__ == "__main__":
