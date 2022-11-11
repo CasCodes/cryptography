@@ -3,7 +3,13 @@ $(".alert").hide()
 function displayResult(text) {
     div = document.getElementById('modal-text');
     div.textContent = text;
+}
 
+// copies the result to clipboard
+function copyToClipboard() {
+    div = document.getElementById('modal-text');
+    navigator.clipboard.writeText(div.textContent)
+    console.log(div.textContent)
 }
 
 function callBackend(data) {
@@ -22,7 +28,7 @@ function callBackend(data) {
             console.log(rb);
             displayResult(rb['result'])
         });
-    
+
         // open modal (result popup)
         $(".modal").modal()
 }
