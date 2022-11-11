@@ -1,6 +1,4 @@
-
 from english_words import english_words_set
-import re
 
 mode = int(input('(0) Encrypt (1) Decrypt (2) Hack: '))
 
