@@ -7,38 +7,21 @@ def get_input():
     key = int(input('enter key: '))
     return text, key
 
-def encrypt(text, key):
+def caesar(text: str, key: int, mode: int) -> str:
+    key = -key if mode == 1 else key
     cipher = ""
-
     for i in text:
-        # catch values out of bound
-        if (ord(i) + key) > 126:
-            # cap between ascii value 33 & 126
-            val = ord(i) + key % (126 - 32)
-            if val > 126:
-                val = val % 126 + 32
-            cipher += chr(val)
+        # handle spaces and other weird characters
+        if 126 >= ord(i) >= 33 :
+            # handle out of bounds increase with mod
+            cipher += chr((ord(i) + key - 33) % 93 + 33)
         else:
-            cipher += chr(ord(i) + key)
-    
-    print(cipher)
+            cipher += i
     return cipher
 
-def decrypt(text, key):
-    cipher = ""
-    # khoor/#zruog$
-    for i in text:
-        # catch values out of bound
-        if (ord(i) - key - 33) < 33:
-            # cap between ascii value 33 & 126
-            val = ord(i) - key - 32
-            val = 126 + val
-            cipher += chr(val)
-        else:
-            cipher += chr(ord(i) - key)
-    
-    print(cipher)
+
 
 t, k = get_input()
-e = encrypt(t, k)
-decrypt(e, k)
+e = caesar(t, k, 0)
+f = caesar(e, k, 1)
+print(e,'\n', f)

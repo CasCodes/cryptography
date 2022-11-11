@@ -51,7 +51,7 @@ function getSelections() {
     console.log(key)
 
     // check if inputs are of valid type
-    if (method == 'Cesar') {
+    if (method == 'Caesar') {
         key = parseInt(key)
         // only allow int for cesar
         if (!Number.isInteger(key)) {

@@ -1,41 +1,26 @@
+
 from english_words import english_words_set
 import re
 
-"""
-cesaer cipher (encrypt, decrypt and hack)
-"""
+mode = int(input('(0) Encrypt (1) Decrypt (2) Hack: '))
 
-def encrypt_cesar(text, key) -> str:
-    text = text.lower()
+# get input
+def get_input():
+    text = input('enter text: ')
+    key = int(input('enter key: '))
+    return text, key
+
+def caesar(text: str, key: int, mode: int) -> str:
+    key = -key if mode == 1 else key
     cipher = ""
-    for i in range(len(text)):
-        # check for alphabetic characters
-        if text[i].isalpha():
-            # substract ascii value of char by key
-            # account for values < a
-            val = ord(text[i])
-            if val - key < 97:
-                # alphabetical position of char (starting at 1)
-                cipher += chr((val - key) + 26)
-            else:
-                cipher += chr(ord(text[i])-key)
+    for i in text:
+        # handle spaces and other weird characters
+        if 126 >= ord(i) >= 33 :
+            # handle out of bounds increase with mod
+            cipher += chr((ord(i) + key - 33) % 93 + 33)
         else:
-            cipher += text[i]
+            cipher += i
     return cipher
-
-def decrypt_cesar(text, key) -> str:
-    plain = ""
-    for i in range(len(text)):
-        if text[i].isalpha():
-            # add key to ascii value of char
-            val = ord(text[i])
-            if val+key > 122:
-                plain += chr((val + key) - 26)
-            else:
-                plain += chr(ord(text[i])+key)
-        else:
-            plain += text[i]
-    return plain
 
 # super secret mode 
 def hack() -> str:
@@ -62,3 +47,16 @@ def hack() -> str:
                     t = "".join(temp)
                 return(f"hacked!\n key = {i}\n text = {t}")
     return("super secret hacker failed")
+
+
+if mode == 0:
+    t, k = get_input()
+    print(caesar(t, k, 0))
+elif mode == 1:
+    t, k = get_input()
+    print(caesar(t, k, 1))
+elif mode == 2:
+    print(hack())
+else:
+    print('please select a valid mode')
+    

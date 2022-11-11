@@ -3,8 +3,8 @@ import flask
 import json
 
 # custom imports
-from cesar import encrypt_cesar, decrypt_cesar
-from vigenere import generate_key, encrypt_vigenere, decrypt_vigenere
+from caesar import caesar
+from vigenere import encrypt_vigenere, decrypt_vigenere
 
 app = Flask(__name__)
 
@@ -14,16 +14,16 @@ def pipeline(data) -> str:
     if data['method'] == 'RSA':
         return "RSA is not implemented yet!"
     if data['encrypt']:
-        if data['method'] == "Cesar":
-            result = encrypt_cesar(data['message'], int(data['key']))
+        if data['method'] == "Caesar":
+            result = caesar(data['message'], int(data['key']), 0)
             return result
         elif data['method'] == "Vigenere":
             result = encrypt_vigenere(data['message'].upper(), data['key'].upper())
             return result
     # decrypt mode
     else:
-        if data['method'] == "Cesar":
-            result = decrypt_cesar(data['message'], int(data['key']))
+        if data['method'] == "Caesar":
+            result = caesar(data['message'], int(data['key']), 1)
             return result
         elif data['method'] == "Vigenere":
             result = decrypt_vigenere(data['message'].upper(), data['key'].upper())
