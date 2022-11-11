@@ -19,6 +19,8 @@ fully
 - decrypt
 - **hack** -> This is not implemented in GUI yet
 
+![hacked](https://user-images.githubusercontent.com/64489325/201374248-68419d8d-0352-455b-a61a-03bda7fcd90b.gif)
+
 #### vigenere_CLI.py
 ignoring case and non-alphabetic characters
 - encrypt
