@@ -22,32 +22,20 @@ def caesar(text: str, key: int, mode: int) -> str:
             cipher += i
     return cipher
 
-# super secret mode 
+# super secret mode pssst
 def hack() -> str:
-    text = input("text2hack: ").lower()
-    # split at spaces, ignoring special chars
-    words = re.sub(r'[,\.!?]', '', text).split()
+    text = input("text2hack: ")
+    # split at spaces, ignoring special chars  zruog khoor$ -> world hello!
+    words = text.lower().split()
     for word in words:
-        temp = list(word)
-        for i in range(26):
-            for j in range(len(word)):
-                if temp[j].isalpha():
-                    val = ord(word[j])
-                    if val+i > 122:
-                        temp[j] = chr((val+i) - 26)
-                    else:
-                        temp[j] = chr(val+i)
-            if "".join(temp) in english_words_set:
-                # if cracked & multiple words, decipher entire input
-                if len(words) > 1:
-                    t = ""
-                    for k in list(text):
-                        t += chr(ord(k)+i) if k.isalpha() else k
-                else:
-                    t = "".join(temp)
-                return(f"hacked!\n key = {i}\n text = {t}")
-    return("super secret hacker failed")
-
+        # brute force every key
+        for i in range(93):
+            temp = caesar(word, i, 1)
+            # check if a known word is found
+            if temp in english_words_set:
+                print('Hacked! Key = ', i)
+                return caesar(text, i, 1)
+    return 'Super secret hacker failed!'
 
 if mode == 0:
     t, k = get_input()
