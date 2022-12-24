@@ -10,8 +10,8 @@
 import math
 import random
 from random import getrandbits
+import time
 
-MESSAGE = 'hello'
 BITS = 8
 
 # generate random number of l bits
@@ -51,29 +51,27 @@ def random_coprime(m: int) -> int:
 
 # compute keys
 def generate_keys() -> dict:
-    """
+    """ requirements
     p & q -> prime
     p != q
     """
     p, q = make_primes(BITS)
-    # p = 2
-    # q = 7 
-    
+
     n = p * q
-    # len/amount of non-common factors between 1 and n
+    # amount of non-common factors between 1 and n
     m = (p-1) * (q-1)
 
-    # find the ENCRYPTION key
     """ requirements:
     random int between 1 and m (exclusive)
     coprime to m
     """
+    # TODO catch ValueError for randrange
     a = random_coprime(m)
 
-    # find the DECRYPTION key
     """ requirements:
     a * d % m = 1
     """
+    # modular inverse
     # self-recursion until d != a
     d = pow(a, -1, m)
     if d == a:
@@ -81,9 +79,45 @@ def generate_keys() -> dict:
     # requirement met first try
     else:
         return {
-            'encryption': (a, n, d),
-            'private': m
+            "private": (n, d),
+            "public":  (n, a)
         }
 
-keys = generate_keys()
-print(keys)
+# takes keys and int encoded plain text; returns encrypted int
+def encrypt(public_key: tuple[int, int], plain: int) -> int:
+    n, a = public_key
+    cipher = (plain ** a) % n
+    return cipher 
+
+# takes keys and encrypted int; returns decrypted int
+def decrypt(private_key: tuple[int, int, int], cipher: int) -> int:
+    n, d = private_key
+    plain = (cipher ** d) % n
+    return plain
+
+def rsa(s: str):
+    st = time.time()
+
+    keys = generate_keys()
+    s = s.encode("utf-8") 
+    # encrypt
+    cipher = []
+    for c in s:
+        cipher.append(encrypt(keys["public"], c))
+    
+    cip = "".join(chr(i) for i in cipher)
+    print(cip)
+    
+    # decrypt
+    plain = []
+    for c in cipher:
+        plain.append(decrypt(keys["private"], c))
+
+    print(cipher, plain)
+    text = ""
+    for i in plain:
+        text += chr(i)
+    print(f"{text} \n--------\n{time.time() - st}")
+
+s= "hello world"
+rsa(s)
