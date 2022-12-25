@@ -9,18 +9,15 @@
 """
 import math
 import random
-from random import getrandbits
 import time
 
 BITS = 8
 
-# generate random number of l bits
-def rand_bits(l: int) -> int:
+# generate random number of n bits
+def rand_bits(n: int) -> int:
     # random bits
-    p = getrandbits(l)
-    return p
+    return random.randrange(2**(n-1)+1, 2**n-1)
 
-# -- TODO: replace with miller rabin
 # check if n of (k-bits) is a prime
 def is_prime(n: int) -> bool:
     # check if even
@@ -32,14 +29,15 @@ def is_prime(n: int) -> bool:
             return False
     return True
 
-# create prime candidate & check if prime of length l bits
-def make_primes(l: int) -> int:
-    p = rand_bits(l)
-    q = rand_bits(l)
+# create prime candidate of size n & check if prime
+def make_primes(n: int) -> int:
+    p = rand_bits(n)
+    q = rand_bits(n)
+
     while is_prime(p) == False:
-        p = rand_bits(l)
+        p = rand_bits(n)
     while is_prime(q) == False and p != q:
-        q = rand_bits(l)
+        q = rand_bits(n)
     return p, q
 
 # return number between 1 & m that is coprime with both m & n
@@ -84,40 +82,44 @@ def generate_keys() -> dict:
         }
 
 # takes keys and int encoded plain text; returns encrypted int
-def encrypt(public_key: tuple[int, int], plain: int) -> int:
+def encrypt(public_key: tuple[int, int], plain: str):
     n, a = public_key
-    cipher = (plain ** a) % n
+
+    cipher = ""
+    for c in plain:
+        cipher += chr((ord(c) ** a) % n)
     return cipher 
 
 # takes keys and encrypted int; returns decrypted int
-def decrypt(private_key: tuple[int, int, int], cipher: int) -> int:
+def decrypt(private_key: tuple[int, int, int], cipher: str) -> int:
+    # read key from file
     n, d = private_key
-    plain = (cipher ** d) % n
+
+    plain = ""
+    for c in cipher:
+        plain += chr((ord(c) ** d) % n)
     return plain
 
+
 def rsa(s: str):
+    # start timer
     st = time.time()
 
+    # load keys
     keys = generate_keys()
-    s = s.encode("utf-8") 
-    # encrypt
-    cipher = []
-    for c in s:
-        cipher.append(encrypt(keys["public"], c))
-    
-    cip = "".join(chr(i) for i in cipher)
-    print(cip)
-    
-    # decrypt
-    plain = []
-    for c in cipher:
-        plain.append(decrypt(keys["private"], c))
 
-    print(cipher, plain)
-    text = ""
-    for i in plain:
-        text += chr(i)
-    print(f"{text} \n--------\n{time.time() - st}")
+    # encrypt string
+    cipher = encrypt(keys["public"], s)
+    print(cipher)
 
-s= "hello world"
+    # decrypt encrypted string
+    plain = decrypt(keys["private"], cipher)
+
+    # print time
+    print(f"{plain} \n--------\ntime: {time.time() - st}")
+
+s= "hello, world"
 rsa(s)
+
+
+# TODO: read / write key file
