@@ -16,10 +16,9 @@ BITS = 8
 
 # generate random number of n bits
 def rand_bits(n: int) -> int:
-    # random bits
     return random.randrange(2**(n-1)+1, 2**n-1)
 
-# check if n of (k-bits) is a prime
+# check if n is a prime
 def is_prime(n: int) -> bool:
     # check if even
     if n % 2 == 0:
@@ -30,7 +29,7 @@ def is_prime(n: int) -> bool:
             return False
     return True
 
-# create prime candidate of size n & check if prime
+# create two unique random primes of size n
 def make_primes(n: int) -> int:
     p = rand_bits(n)
     q = rand_bits(n)
@@ -41,7 +40,7 @@ def make_primes(n: int) -> int:
         q = rand_bits(n)
     return p, q
 
-# return number between 1 & m that is coprime with both m & n
+# return number between 1 & m that is coprime with m
 def random_coprime(m: int) -> int:
     a = random.randint(2, m - 1)
     while math.gcd(a, m) != 1:
@@ -64,7 +63,6 @@ def generate_keys() -> dict:
     random int between 1 and m (exclusive)
     coprime to m
     """
-    # TODO catch ValueError for randrange
     a = random_coprime(m)
 
     """ requirements:
@@ -75,14 +73,14 @@ def generate_keys() -> dict:
     d = pow(a, -1, m)
     if d == a:
         return generate_keys()
-    # requirement met first try
+    # else when requirement met first try
     else:
         return {
             "private": (n, d),
             "public":  (n, a)
         }
 
-# takes keys and int encoded plain text; returns encrypted int
+# takes keys plain text; returns encrypted str
 def encrypt(public_key: tuple[int, int], plain: str) -> str:
     n, a = public_key
 
@@ -97,7 +95,7 @@ def encrypt(public_key: tuple[int, int], plain: str) -> str:
 
     return cipher
 
-# takes keys and encrypted int; returns decrypted int
+# takes keys and cipher text; returns decrypted str
 def decrypt(private_key: tuple[int, int, int], cipher: str) -> str:
     # read key from file
     n, d = private_key
@@ -132,7 +130,7 @@ def rsa(s: str, mode: int, keys) -> str:
 
 s= "Hi" 
 
-keys = generate_keys() # TODO dont always generate new keys
+keys = generate_keys()
 print(keys)
 
 # 0 -> encrypt ; 1 -> decrypt
@@ -142,3 +140,4 @@ p = rsa(c[0], 1, keys)
 print(f'{c[0]}\n\n{p[0]}\n--------\n{c[1]+p[1]}')
 
 # TODO: read / write key file
+# TODO: add to GUI
