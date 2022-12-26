@@ -10,6 +10,7 @@
 import math
 import random
 import time
+import base64
 
 BITS = 8
 
@@ -85,16 +86,26 @@ def generate_keys() -> dict:
 def encrypt(public_key: tuple[int, int], plain: str):
     n, a = public_key
 
-    cipher = ""
+    cipher = ''
+    # loop over byte string and encrypt
     for c in plain:
         cipher += chr((ord(c) ** a) % n)
-    return cipher 
+    
+    # encode str to bytes and then base64
+    cipher = cipher.encode('utf-8')
+    cipher = base64.b64encode(cipher).decode()
+
+    return cipher
 
 # takes keys and encrypted int; returns decrypted int
-def decrypt(private_key: tuple[int, int, int], cipher: str) -> int:
+def decrypt(private_key: tuple[int, int, int], cipher: str):
     # read key from file
     n, d = private_key
 
+    # decode from base64 to bytes and then str
+    cipher = base64.b64decode(cipher.encode())
+    cipher = cipher.decode('utf-8')
+  
     plain = ""
     for c in cipher:
         plain += chr((ord(c) ** d) % n)
@@ -108,7 +119,6 @@ def rsa(s: str):
     # load keys
     keys = generate_keys()
 
-    # encrypt string
     cipher = encrypt(keys["public"], s)
     print(cipher)
 
@@ -118,7 +128,7 @@ def rsa(s: str):
     # print time
     print(f"{plain} \n--------\ntime: {time.time() - st}")
 
-s= "hello, world"
+s= "Hi"
 rsa(s)
 
 
