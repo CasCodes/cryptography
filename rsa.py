@@ -105,7 +105,6 @@ def decrypt(private_key: tuple[int, int, int], cipher: str) -> str:
     # decode from base64 to bytes and then str
     cipher = base64.b64decode(cipher.encode())
     cipher = cipher.decode('utf-8')
-    print(cipher)
     
     # decrypt ascii values of each char
     plain = ""
@@ -134,10 +133,12 @@ def rsa(s: str, mode: int, keys) -> str:
 s= "Hi" 
 
 keys = generate_keys() # TODO dont always generate new keys
+print(keys)
+
 # 0 -> encrypt ; 1 -> decrypt
 c = rsa(s, 0, keys)
 p = rsa(c[0], 1, keys)
 
-print(f'{c[0]}\n{p[0]}\n--------\n{c[1]+p[1]}')
+print(f'{c[0]}\n\n{p[0]}\n--------\n{c[1]+p[1]}')
 
 # TODO: read / write key file
