@@ -83,11 +83,11 @@ def generate_keys() -> dict:
         }
 
 # takes keys and int encoded plain text; returns encrypted int
-def encrypt(public_key: tuple[int, int], plain: str):
+def encrypt(public_key: tuple[int, int], plain: str) -> str:
     n, a = public_key
 
     cipher = ''
-    # loop over byte string and encrypt
+    # encrypt ascii values of each char
     for c in plain:
         cipher += chr((ord(c) ** a) % n)
     
@@ -98,38 +98,46 @@ def encrypt(public_key: tuple[int, int], plain: str):
     return cipher
 
 # takes keys and encrypted int; returns decrypted int
-def decrypt(private_key: tuple[int, int, int], cipher: str):
+def decrypt(private_key: tuple[int, int, int], cipher: str) -> str:
     # read key from file
     n, d = private_key
 
     # decode from base64 to bytes and then str
     cipher = base64.b64decode(cipher.encode())
     cipher = cipher.decode('utf-8')
-  
+    print(cipher)
+    
+    # decrypt ascii values of each char
     plain = ""
     for c in cipher:
         plain += chr((ord(c) ** d) % n)
+    
     return plain
 
-
-def rsa(s: str):
+# applies the rsa pipeline to a string
+def rsa(s: str, mode: int, keys) -> str:
     # start timer
     st = time.time()
 
     # load keys
-    keys = generate_keys()
+    
+    # encrypt
+    if mode == 0:
+        text = encrypt(keys["public"], s)
+    # decrypt
+    elif mode == 1:
+        text = decrypt(keys["private"], s)
 
-    cipher = encrypt(keys["public"], s)
-    print(cipher)
+    # return text and time
+    return (text, time.time() - st)
 
-    # decrypt encrypted string
-    plain = decrypt(keys["private"], cipher)
+s= "Hi" 
 
-    # print time
-    print(f"{plain} \n--------\ntime: {time.time() - st}")
+keys = generate_keys() # TODO dont always generate new keys
+# 0 -> encrypt ; 1 -> decrypt
+c = rsa(s, 0, keys)
+p = rsa(c[0], 1, keys)
 
-s= "Hi"
-rsa(s)
-
+print(f'{c[0]}\n{p[0]}\n--------\n{c[1]+p[1]}')
 
 # TODO: read / write key file
