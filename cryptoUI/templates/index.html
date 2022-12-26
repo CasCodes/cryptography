@@ -30,7 +30,7 @@
           <div class="col-md-6 pl-0 custom-dropdown-example">
             <h6 class="text-muted mb-3">Mode Menu</h6>
             <fieldset>
-              <select class="custom-select w-100" id="modeMenu" required>
+              <select class="custom-select w-100" id="modeMenu" onchange="changeOptions(this.id)" required>
                 <option value="1">Caesar</option>
                 <option value="2">Vigenere</option>
                 <option value="3">RSA</option>
@@ -50,7 +50,26 @@
           </div>
         </div>
       </div>
-      
+
+    <!-- KEY FIELD RSA -->
+    <div class="container" id="RSAcontainer" style="display: none">
+      <div class="row">
+        <h5 class="mb-4 w-100">Keys</h5>
+        <p class="mb-5">
+          Here you find your public key. The private key is stored in an extra file. 
+          To generate a new keypair, press the button below. IMPORTANT: You can't encrypt a previous 
+          message with a new key.
+        </p>
+        <div class="row mb-5">
+          <!-- display public key -->
+          <!-- button to generate new key pair -->
+          <h6 class="text-muted mb-3">klasdf342kasdj01kasd1</h6>
+          <button type="button" class="btn btn-outline-primary btn-pill">Generate new Keys</button>
+        </div>
+      </div>
+    </div>
+    
+      <!-- INPUT FIELDS -->
       <div class="row">
         <div class="col-12">
           <h5 class="mb-4">Inputs</h5>

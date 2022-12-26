@@ -33,6 +33,23 @@ function callBackend(data) {
         $(".modal").modal()
 }
 
+// triggers when a new selection is made in the select menu
+function changeOptions(selector) {
+    selected = (document.getElementById(selector)).value
+    rsaSec = document.getElementById('RSAcontainer')
+
+    // show RSA section when 3 is selected
+    if (selected == 3) {
+        
+        rsaSec.style.display = 'block'
+    }
+    // else hide
+    else {
+        rsaSec.style.display = 'none'
+    }
+}
+
+// fetches the selections of each input field
 function getSelections() {
     // flip switch checkbox
     if (document.getElementById("customToggle2").checked){
