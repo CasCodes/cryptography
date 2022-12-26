@@ -141,9 +141,3 @@ print(f'{c[0]}\n\n{p[0]}\n--------\n{c[1]+p[1]}')
 
 # TODO: read / write key file
 # TODO: add to GUI
-
-"""
-requires: 
-- key generator & public key display
-- text input
-"""

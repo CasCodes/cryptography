@@ -75,6 +75,12 @@ def generate_keys() -> dict:
         return generate_keys()
     # else when requirement met first try
     else:
+        # write keys to file
+        with open('keys.txt', 'w') as f:
+            # general, private, public
+            keys = [str(n), str(d), str(a)]
+            f.write('\n'.join(keys))
+
         return {
             "private": (n, d),
             "public":  (n, a)
@@ -139,5 +145,5 @@ p = rsa(c[0], 1, keys)
 
 print(f'{c[0]}\n\n{p[0]}\n--------\n{c[1]+p[1]}')
 
-# TODO: read / write key file
-# TODO: add to GUI
+# TODO: read key file
+# TODO: add TUI input

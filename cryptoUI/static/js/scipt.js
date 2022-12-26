@@ -3,6 +3,9 @@ $(".alert").hide()
 function displayResult(text) {
     div = document.getElementById('modal-text');
     div.textContent = text;
+
+    // open modal (result popup)
+    $(".modal").modal()
 }
 
 // copies the result to clipboard
@@ -29,8 +32,13 @@ function callBackend(data) {
             displayResult(rb['result'])
         });
 
-        // open modal (result popup)
-        $(".modal").modal()
+}
+
+// call backend for new RSA key pairs
+// only call to regenerate keys -> will make python change the keyfile
+// read the keyfile on encryption
+function requestKeys() {
+
 }
 
 // triggers when a new selection is made in the select menu
@@ -40,12 +48,13 @@ function changeOptions(selector) {
 
     // show RSA section when 3 is selected
     if (selected == 3) {
-        
         rsaSec.style.display = 'block'
+        // TODO: hide key field
     }
     // else hide
     else {
         rsaSec.style.display = 'none'
+        // TODO: show key field
     }
 }
 
