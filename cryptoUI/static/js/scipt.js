@@ -2,10 +2,12 @@ $(".alert").hide()
 // private, public
 keys = [0, 0]
 
+// displays the encryption/decryption result on screen
 function displayResult(text) {
     div = document.getElementById('modal-text');
     div.textContent = text;
 
+    // TODO deal with too long result (rsa)
     // open modal (result popup)
     $(".modal").modal()
 }

@@ -26,7 +26,6 @@ def pipeline(data) -> str:
         elif data['method'] == "RSA":
             pubk = tuple(data['key'][1])
             res = rsa_encrypt(pubk, data['message'])
-            print(res)
             return res
     # DECRYPT
     else:
@@ -36,6 +35,9 @@ def pipeline(data) -> str:
         elif data['method'] == "Vigenere":
             result = decrypt_vigenere(data['message'].upper(), data['key'].upper())
             return result
+        elif data['method'] == "RSA":
+             privk = tuple(data['key'][0])
+             return rsa_decrypt(privk, data['message'])
     
 
 @app.route('/')

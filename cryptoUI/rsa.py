@@ -107,5 +107,5 @@ def rsa_decrypt(private_key: tuple[int, int], cipher: str) -> str:
     plain = ""
     for c in cipher:
         plain += chr((ord(c) ** d) % n)
-    
+    print(plain)
     return plain
