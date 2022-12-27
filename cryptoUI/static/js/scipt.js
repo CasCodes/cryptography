@@ -1,4 +1,6 @@
 $(".alert").hide()
+// private, public
+keys = [0, 0]
 
 function displayResult(text) {
     div = document.getElementById('modal-text');
@@ -28,29 +30,29 @@ function callBackend(data) {
         .then(response => response.json())
         .then(rb => {
             // return response
-            resp = rb
-        });
-    return resp
-}
+            if (data['method'] == 'KEYS') {
+                // save keypair
+                keys[0] = rb['result']['private']
+                keys[1] = rb['result']['public']
 
-// private, public
-keys = [0, 0]
+                // display public keypair
+                keyfield = document.getElementById('public-key-field')
+                keyfield.textContent = keys[1]
+            }
+            // display on frontend
+            else {
+                displayResult(rb['result'])
+            }
+             
+        });
+}
 // call backend for new RSA key pairs & display on frontend
 function generateKeys() {
     // send message to backend requesting keys
     data = {
         'method': 'KEYS'
     }
-    r = callBackend(data)['result']
-    console.log(r)
-
-    // save keypair
-    keys[0] = r['private']
-    keys[1] = r['public']
-
-    // display public keypair
-    keyfield = document.getElementById('public-key-field')
-    keyfield.textContent = keys[1]
+    callBackend(data)
 }
 
 // triggers when a new selection is made in the select menu
@@ -130,7 +132,5 @@ function getSelections() {
         'key': key
     }
     // fetch result from backend
-    r = callBackend(data)
-    // display on frontend
-    displayResult(r['result'])
+    callBackend(data)
 }

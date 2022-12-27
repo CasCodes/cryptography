@@ -9,7 +9,6 @@
 """
 import math
 import random
-import time
 import base64
 
 BITS = 8
@@ -81,7 +80,7 @@ def generate_keys() -> dict:
         }
 
 # takes keys plain text; returns encrypted str
-def encrypt(public_key: tuple[int, int], plain: str) -> str:
+def rsa_encrypt(public_key: tuple[int, int], plain: str) -> str:
     n, a = public_key
 
     cipher = ''
@@ -96,7 +95,7 @@ def encrypt(public_key: tuple[int, int], plain: str) -> str:
     return cipher
 
 # takes keys and cipher text; returns decrypted str
-def decrypt(private_key: tuple[int, int, int], cipher: str) -> str:
+def rsa_decrypt(private_key: tuple[int, int], cipher: str) -> str:
     # read key from file
     n, d = private_key
 
@@ -110,33 +109,3 @@ def decrypt(private_key: tuple[int, int, int], cipher: str) -> str:
         plain += chr((ord(c) ** d) % n)
     
     return plain
-
-# applies the rsa pipeline to a string
-def rsa(s: str, mode: int, keys) -> str:
-    # start timer
-    st = time.time()
-
-    # load keys
-    
-    # encrypt
-    if mode == 0:
-        text = encrypt(keys["public"], s)
-    # decrypt
-    elif mode == 1:
-        text = decrypt(keys["private"], s)
-
-    # return text and time
-    return (text, time.time() - st)
-
-s= "Hi" 
-
-keys = generate_keys()
-print(keys)
-
-# 0 -> encrypt ; 1 -> decrypt
-c = rsa(s, 0, keys)
-p = rsa(c[0], 1, keys)
-
-print(f'{c[0]}\n\n{p[0]}\n--------\n{c[1]+p[1]}')
-
-# TODO: read / write key file
