@@ -27,34 +27,51 @@ function callBackend(data) {
         })
         .then(response => response.json())
         .then(rb => {
-            // send text to widget
-            console.log(rb);
-            displayResult(rb['result'])
+            // return response
+            resp = rb
         });
-
+    return resp
 }
 
-// call backend for new RSA key pairs
-// only call to regenerate keys -> will make python change the keyfile
-// read the keyfile on encryption
-function requestKeys() {
+// private, public
+keys = [0, 0]
+// call backend for new RSA key pairs & display on frontend
+function generateKeys() {
+    // send message to backend requesting keys
+    data = {
+        'method': 'KEYS'
+    }
+    r = callBackend(data)['result']
+    console.log(r)
 
+    // save keypair
+    keys[0] = r['private']
+    keys[1] = r['public']
+
+    // display public keypair
+    keyfield = document.getElementById('public-key-field')
+    keyfield.textContent = keys[1]
 }
 
 // triggers when a new selection is made in the select menu
 function changeOptions(selector) {
     selected = (document.getElementById(selector)).value
     rsaSec = document.getElementById('RSAcontainer')
+    keyIn = document.getElementById('key-inputs')
 
     // show RSA section when 3 is selected
     if (selected == 3) {
+        // show Keys field
         rsaSec.style.display = 'block'
-        // TODO: hide key field
+        // hide key input
+        keyIn.style.display = 'none'
     }
     // else hide
     else {
+        // hide Keys field
         rsaSec.style.display = 'none'
-        // TODO: show key field
+        // show key input
+        keyIn.style.display = 'block'
     }
 }
 
@@ -79,7 +96,12 @@ function getSelections() {
     console.log(msg)    
 
     // key
-    var key = document.getElementById("form-2-key").value;
+    if (method == 'RSA') {
+        var key = keys
+    }
+    else {
+        var key = document.getElementById("form-2-key").value
+    }
     console.log(key)
 
     // check if inputs are of valid type
@@ -107,5 +129,8 @@ function getSelections() {
         'message': msg,
         'key': key
     }
-    callBackend(data)
+    // fetch result from backend
+    r = callBackend(data)
+    // display on frontend
+    displayResult(r['result'])
 }

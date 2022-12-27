@@ -5,12 +5,15 @@ import json
 # custom imports
 from caesar import caesar
 from vigenere import encrypt_vigenere, decrypt_vigenere
+from rsa import generate_keys
 
 app = Flask(__name__)
 
 # routes data to the correct mode and method
 def pipeline(data) -> str:
  # {"encrypt":true,"method":"Cesar","message":"Hello, world!","key":"3"}'
+    if data['method'] == 'KEYS':
+        return generate_keys()
     if data['method'] == 'RSA':
         return "RSA is not implemented yet!"
     if data['encrypt']:
@@ -28,6 +31,7 @@ def pipeline(data) -> str:
         elif data['method'] == "Vigenere":
             result = decrypt_vigenere(data['message'].upper(), data['key'].upper())
             return result
+    
 
 @app.route('/')
 def index():

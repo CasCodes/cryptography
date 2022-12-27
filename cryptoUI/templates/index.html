@@ -56,15 +56,15 @@
       <div class="row">
         <h5 class="mb-4 w-100">Keys</h5>
         <p class="mb-5">
-          Here you find your public key. The private key is stored in an extra file. 
+          Here you find your public key-pair. The private key is stored in an extra file. 
           To generate a new keypair, press the button below. <span style="font-weight:bold">IMPORTANT: You can't decrypt a previous 
           message with a new key!</span>
         </p>
         <div class="row mb-5">
           <!-- display public key -->
           <!-- button to generate new key pair -->
-          <button type="button" class="btn btn-outline-primary btn-pill">Generate new Keys</button>
-          <h6 class="text-muted mb-3">klasdf342kasdj01kasd1</h6>
+          <button onclick="generateKeys()" type="button" class="btn btn-outline-primary btn-pill">Generate new Keys</button>
+          <h6 class="text-muted mb-3" id="public-key-field">klasdf342kasdj01kasd1</h6>
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
                 <label for="form-2-first-name">Message</label>
                 <input type="text" class="form-control is-valid" id="form-2-message" placeholder="Enter Message" value="Hello, world!" required>
               </div>
-              <div class="col-md-6 mb-3">
+              <div class="col-md-6 mb-3" id='key-inputs'>
                 <label for="form-2-last-name">Key</label>
                 <input type="text" class="form-control is-valid" id="form-2-key" placeholder="Enter Key" value="3" required>
               </div>
@@ -88,8 +88,6 @@
             <!-- GO BUTTON -->
             <!-- Modals -->
             <div id="modals" class="container">
-
-
               <div class="mb-5">
                 <!-- Trigger -->
                 <button onclick="getSelections()" type="button" class="btn btn-primary btn-pill btn-lg d-table ml-auto mr-auto" data-target="#exampleModal">
