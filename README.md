@@ -1,8 +1,10 @@
 # CryptoUI
 
-CryptoUI is a minimalist GUI for testing the famous Cesar & Viginere ciphers. It supports encrypt & decrypt. Cesar also includes a 'hack' function which tries to crack the key to a given ciphertext.
+CryptoUI is a minimalist GUI for testing the famous RSA, Cesar & Viginere ciphers. It supports encrypt & decrypt. Cesar also includes a 'hack' function which tries to crack the key to a given ciphertext.
 
-![Screenshot from 2022-11-11 10-18-32](https://user-images.githubusercontent.com/64489325/201308071-63792b56-5d08-4613-8b59-fe635bd3bc5d.png)
+<img src="https://user-images.githubusercontent.com/64489325/209791947-dafbc0c1-66e0-44f2-93c9-165eaf05d432.gif" width="600" height="600" />
+
+_RSA demo_
 
 ## Install
 1. Clone this repo and cd into _cryptoUI/_ (the other files are the ciphers for cli)
