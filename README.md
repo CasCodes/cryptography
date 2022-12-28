@@ -15,6 +15,12 @@ _RSA demo_
 The cryptoUI/ directory contains the GUI + encryptions.
 The other files are **the same** encryptions but for command line (CLI)
 
+## rsa_CLI.py
+usage:
+- Generate new keys with `python3 rsa_CLI -n`
+- Encrypt with `python3 rsa_CLI -e 'message'`
+- Decrypt with `python3 rsa_CLI -d 'message'`
+
 #### cesar_CLI.py
 fully
 - encrypt

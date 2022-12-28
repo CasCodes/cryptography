@@ -7,12 +7,16 @@
 ██║░░██║██████╔╝██║░░██║
 ╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝
 """
+import sys
 import math
 import random
 import time
 import base64
 
 BITS = 8
+
+# mode = input('RSA encrypt (0) or decrypt (1) ?: ')
+
 
 # generate random number of n bits
 def rand_bits(n: int) -> int:
@@ -77,18 +81,22 @@ def generate_keys() -> dict:
     else:
         # write keys to file
         with open('keys.txt', 'w') as f:
-            # general, private, public
-            keys = [str(n), str(d), str(a)]
+            # general (n),public (a), private (d), 
+            keys = [str(n), str(a), str(d)]
             f.write('\n'.join(keys))
-
-        return {
-            "private": (n, d),
-            "public":  (n, a)
-        }
+        return
+        # return {
+        #     "private": (n, d),
+        #     "public":  (n, a)
+        # }
 
 # takes keys plain text; returns encrypted str
-def encrypt(public_key: tuple[int, int], plain: str) -> str:
-    n, a = public_key
+def encrypt(plain: str) -> str:
+    # read keyfile
+    with open('keys.txt') as f:
+        lines = f.readlines()
+        n = int(lines[0])
+        a = int(lines[1])
 
     cipher = ''
     # encrypt ascii values of each char
@@ -101,10 +109,13 @@ def encrypt(public_key: tuple[int, int], plain: str) -> str:
 
     return cipher
 
-# takes keys and cipher text; returns decrypted str
-def decrypt(private_key: tuple[int, int, int], cipher: str) -> str:
-    # read key from file
-    n, d = private_key
+# takes cipher text; returns decrypted str
+def decrypt(cipher: str) -> str:
+    # read keyfile
+    with open('keys.txt') as f:
+        lines = f.readlines()
+        n = int(lines[0])
+        d = int(lines[2])
 
     # decode from base64 to bytes and then str
     cipher = base64.b64decode(cipher.encode())
@@ -118,30 +129,42 @@ def decrypt(private_key: tuple[int, int, int], cipher: str) -> str:
     return plain
 
 # applies the rsa pipeline to a string
-def rsa(s: str, mode: int, keys) -> str:
+# 0 -> encrypt ; 1 -> decrypt
+def rsa(s: str, mode: int) -> str:
     # start timer
     st = time.time()
 
     # encrypt
     if mode == 0:
-        text = encrypt(keys["public"], s)
+        text = encrypt(s)
     # decrypt
     elif mode == 1:
-        text = decrypt(keys["private"], s)
+        text = decrypt(s)
 
     # return text and time
     return (text, time.time() - st)
 
-s= "Hi" 
+# read command line arguments
+args = sys.argv
+if args[1] == '-n':
+    # generate new keys
+    generate_keys()
+elif args[1] == '-e':
+    try:
+        message = args[2]
+    except IndexError:
+        print('please enter a message!')
+        sys.exit()
+    # ENCRYPT to ciphertext
+    c = rsa(message, 0)
+    print(f'encrypted {message} to\n{c[0]}\n--------\nfinished in {round(c[1], 4)} s')
 
-keys = generate_keys()
-print(keys)
-
-# 0 -> encrypt ; 1 -> decrypt
-c = rsa(s, 0, keys)
-p = rsa(c[0], 1, keys)
-
-print(f'{c[0]}\n\n{p[0]}\n--------\n{c[1]+p[1]}')
-
-# TODO: read key file
-# TODO: add TUI input
+elif args[1] == '-d':
+    try:
+        message = args[2]
+    except IndexError:
+        print('please enter a message!')
+        sys.exit()
+    # DECRYPT to plain text:
+    p = rsa(message, 1)
+    print(f'decrypted {message} to\n{p[0]}\n--------\nfinished in {round(p[1], 4)} s')
