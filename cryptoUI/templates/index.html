@@ -56,15 +56,17 @@
       <div class="row">
         <h5 class="mb-4 w-100">Keys</h5>
         <p class="mb-5">
-          Here you find your public key-pair. The private key is stored in an extra file. 
+          Here you find your public key-pair. The private key is stored hidden. 
           To generate a new keypair, press the button below. <span style="font-weight:bold">IMPORTANT: You can't decrypt a previous 
           message with a new key!</span>
         </p>
+
         <div class="row mb-5">
-          <!-- display public key -->
-          <!-- button to generate new key pair -->
-          <button onclick="generateKeys()" type="button" class="btn btn-outline-primary btn-pill">Generate new keys</button>
-          <h6 class="text-muted mb-3" id="public-key-field"></h6>
+          <div class="col-md-6 pl-0">
+            <!-- Public key display & generate button-->
+            <h6 class="text-muted mb-3" id="public-key-field"></h6>
+            <button onclick="generateKeys()" type="button" class="btn btn-outline-primary btn-pill">Generate new keys</button>
+          </div>
         </div>
       </div>
     </div>
@@ -105,7 +107,7 @@
                         </button>
                       </div>
                       <!-- RESULT TEXT -->
-                      <div class="modal-body" id="modal-text">
+                      <div class="modal-body" id="modal-text" style="overflow:scroll">
                         ebiil, tloia!
                       </div>
                       <div class="modal-footer">

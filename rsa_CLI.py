@@ -122,8 +122,6 @@ def rsa(s: str, mode: int, keys) -> str:
     # start timer
     st = time.time()
 
-    # load keys
-    
     # encrypt
     if mode == 0:
         text = encrypt(keys["public"], s)

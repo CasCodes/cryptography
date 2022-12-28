@@ -1,6 +1,6 @@
 $(".alert").hide()
 // private, public
-keys = [0, 0]
+keys = [[37627,34647],[37627,7583]]
 
 // displays the encryption/decryption result on screen
 function displayResult(text) {
@@ -17,6 +17,12 @@ function copyToClipboard() {
     div = document.getElementById('modal-text');
     navigator.clipboard.writeText(div.textContent)
     console.log(div.textContent)
+}
+
+function displayKeys(k) {
+    // display public keypair
+    keyfield = document.getElementById('public-key-field')
+    keyfield.textContent = keys[1]
 }
 
 function callBackend(data) {
@@ -36,10 +42,7 @@ function callBackend(data) {
                 // save keypair
                 keys[0] = rb['result']['private']
                 keys[1] = rb['result']['public']
-
-                // display public keypair
-                keyfield = document.getElementById('public-key-field')
-                keyfield.textContent = keys[1]
+                displayKeys(keys)
             }
             // display on frontend
             else {
@@ -136,3 +139,5 @@ function getSelections() {
     // fetch result from backend
     callBackend(data)
 }
+// display default key
+displayKeys(keys)
