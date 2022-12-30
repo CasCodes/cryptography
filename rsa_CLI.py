@@ -15,9 +15,6 @@ import base64
 
 BITS = 8
 
-# mode = input('RSA encrypt (0) or decrypt (1) ?: ')
-
-
 # generate random number of n bits
 def rand_bits(n: int) -> int:
     return random.randrange(2**(n-1)+1, 2**n-1)
@@ -40,8 +37,11 @@ def make_primes(n: int) -> int:
 
     while is_prime(p) == False:
         p = rand_bits(n)
-    while is_prime(q) == False and p != q:
+    while is_prime(q) == False:
         q = rand_bits(n)
+
+    if p == q:
+        make_primes()
     return p, q
 
 # return number between 1 & m that is coprime with m
@@ -74,21 +74,18 @@ def generate_keys() -> dict:
     """
     # modular inverse
     # self-recursion until d != a
-    d = pow(a, -1, m)
-    if d == a:
+    b = pow(a, -1, m)
+
+    if b == a:
         return generate_keys()
     # else when requirement met first try
     else:
         # write keys to file
         with open('keys.txt', 'w') as f:
-            # general (n),public (a), private (d), 
-            keys = [str(n), str(a), str(d)]
+            # public (n, a), private (n, b)
+            keys = [str(n), str(a), str(b)]
             f.write('\n'.join(keys))
         return
-        # return {
-        #     "private": (n, d),
-        #     "public":  (n, a)
-        # }
 
 # takes keys plain text; returns encrypted str
 def encrypt(plain: str) -> str:
@@ -102,7 +99,7 @@ def encrypt(plain: str) -> str:
     # encrypt ascii values of each char
     for c in plain:
         cipher += chr((ord(c) ** a) % n)
-    
+
     # encode str to bytes and then base64
     cipher = cipher.encode('utf-8')
     cipher = base64.b64encode(cipher).decode()
@@ -115,7 +112,7 @@ def decrypt(cipher: str) -> str:
     with open('keys.txt') as f:
         lines = f.readlines()
         n = int(lines[0])
-        d = int(lines[2])
+        b = int(lines[2])
 
     # decode from base64 to bytes and then str
     cipher = base64.b64decode(cipher.encode())
@@ -124,7 +121,7 @@ def decrypt(cipher: str) -> str:
     # decrypt ascii values of each char
     plain = ""
     for c in cipher:
-        plain += chr((ord(c) ** d) % n)
+        plain += chr((ord(c) ** b) % n)
     
     return plain
 
@@ -149,6 +146,7 @@ args = sys.argv
 if args[1] == '-n':
     # generate new keys
     generate_keys()
+    print("generated new keys!")
 elif args[1] == '-e':
     try:
         message = args[2]

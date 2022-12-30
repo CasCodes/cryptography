@@ -1,6 +1,6 @@
 $(".alert").hide()
 // private, public
-keys = [[37627,34647],[37627,7583]]
+keys = [[22499,7081],[22499,5521]]
 
 // displays the encryption/decryption result on screen
 function displayResult(text) {

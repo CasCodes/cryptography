@@ -69,13 +69,13 @@ def generate_keys() -> dict:
     """
     # modular inverse
     # self-recursion until d != a
-    d = pow(a, -1, m)
-    if d == a:
+    b = pow(a, -1, m)
+    if b == a:
         return generate_keys()
     # else when requirement met first try
     else:
         return {
-            "private": (n, d),
+            "private": (n, b),
             "public":  (n, a)
         }
 
@@ -97,7 +97,7 @@ def rsa_encrypt(public_key: tuple[int, int], plain: str) -> str:
 # takes keys and cipher text; returns decrypted str
 def rsa_decrypt(private_key: tuple[int, int], cipher: str) -> str:
     # read key from file
-    n, d = private_key
+    n, b = private_key
 
     # decode from base64 to bytes and then str
     cipher = base64.b64decode(cipher.encode())
@@ -106,6 +106,6 @@ def rsa_decrypt(private_key: tuple[int, int], cipher: str) -> str:
     # decrypt ascii values of each char
     plain = ""
     for c in cipher:
-        plain += chr((ord(c) ** d) % n)
+        plain += chr((ord(c) ** b) % n)
     print(plain)
     return plain
